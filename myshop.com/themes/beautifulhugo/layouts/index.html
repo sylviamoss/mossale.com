@@ -29,6 +29,7 @@
                   {{ end }}
                 </p>
                 <p>
+                    <img src="{{ .Params.image }}" alt="{{ .Title }}" width="440" height="380">
                     {{ .Content }}
                 </p>
                 {{ if le .Params.stock 0 }}
