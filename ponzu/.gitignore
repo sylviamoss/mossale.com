@@ -1,9 +1,0 @@
-ponzu-server
-ponzu-server.exe
-/uploads
-/search
-/*.db
-/*.db.lock
-*.pem
-ponzuImport
-ponzuImport.exe

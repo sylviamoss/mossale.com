@@ -88,7 +88,13 @@ func (dest *HugoProduct) mapPonzuProduct(
 	if err = json.Unmarshal(body, &products); err != nil {
 		log.Fatal(err)
 	}
-	dest.Stock = products.Items[0].Stock
+
+	if len(products.Items) > 0 {
+		dest.Stock = products.Items[0].Stock
+	} else {
+		dest.Stock = 1
+	}
+
 }
 
 func main() {
