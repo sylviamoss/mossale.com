@@ -26,3 +26,8 @@ pygmentsCodefencesGuessSyntax = false
   email = "sylviamoss.m@gmail.com"
   github = "sylviamoss"
   instagram = "mosstarda"
+
+[[menu.main]]
+    name = "About"
+    url = "page/about/"
+    weight = 1

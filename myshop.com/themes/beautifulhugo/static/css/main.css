@@ -35,7 +35,7 @@ p a {
 }
 h1,h2,h3,h4,h5,h6 {
   font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  font-weight: 800;
+  font-weight: 700;
 }
 a {
   color: #008AFF;
@@ -718,4 +718,10 @@ table tr td :last-child {
 input.gsc-input, .gsc-input-box, .gsc-input-box-hover, .gsc-input-box-focus, .gsc-search-button {
   box-sizing: content-box;
   line-height: normal;
+}
+
+.well {
+  margin: 20px 40px 0px 40px;
+  text-align: center;
+  padding: 0px 10px 10px 10px;
 }
