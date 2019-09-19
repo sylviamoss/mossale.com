@@ -23,20 +23,20 @@
               {{ partial "post_meta.html" . }}
               <div class="post-entry">
                 <p>
-                  <span class="label label-success">{{ .Params.price }} $</span>
+                  <span class="label label-success">{{ .Params.price }} €</span>
                   {{ if gt .Params.stock 0 }}
                     <span class="label label-default">{{ .Params.stock }} left</span>
                   {{ end }}
                 </p>
                 <p>
-                    <img src="{{ .Params.image }}" alt="{{ .Title }}" width="440" height="380">
+                    <img src="{{ .Params.image }}" alt="{{ .Title }}" width="640" height="480">
                     {{ .Content }}
                 </p>
                 {{ if le .Params.stock 0 }}
                     <span class="label label-danger">Out of stock</span>
                 {{ else }}
                   <button
-                    class="btn btn-default snipcart-add-item"
+                    class="btn btn-default"
                     data-item-id="{{ .Params.id }}"
                     data-item-name="{{ .Title }}"
                     data-item-price="{{ .Params.price }}"
@@ -44,7 +44,7 @@
                     data-item-url="/"
                     data-item-max-quantity="1"
                     data-item-description="{{ .Params.description }}">
-                    Add to cart
+                    Buy
                   </button>
                 {{end}}
               </div>
