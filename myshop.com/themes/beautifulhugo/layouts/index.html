@@ -1,80 +1,110 @@
 {{ define "main" }}
-  <div role="main" class="container">
-    <div class="row">
-      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-        {{ with .Content }}
-          <div class="well">
-            {{.}}
-          </div>
-        {{ end }}
+<div role="main" class="container">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      {{ with .Content }}
+      <div class="well">
+        {{.}}
+      </div>
+      {{ end }}
 
-        <div class="posts-list">
-          {{ $pag := .Paginate (where .Data.Pages "Type" "product") }}
-          {{ range $pag.Pages }}
-            <article class="post-preview">
-              
-              <h2 class="post-title">{{ .Title }}</h2>
-              {{ if .Params.subtitle }}
-                <h3 class="post-subtitle">
-                {{ .Params.subtitle }}
-                </h3>
-              {{ end }}
+      <div class="posts-list">
+        {{ $pag := .Paginate (where .Data.Pages "Type" "product") }}
+        {{ range $pag.Pages }}
+        <article class="post-preview">
 
-              {{ partial "post_meta.html" . }}
-              <div class="post-entry">
-                <p>
-                  <span class="label label-success">{{ .Params.price }} €</span>
-                  {{ if gt .Params.stock 0 }}
-                    <span class="label label-default">{{ .Params.stock }} left</span>
-                  {{ end }}
-                </p>
-                <p>
-                    <img src="{{ .Params.image }}" alt="{{ .Title }}" width="640" height="480">
-                    {{ .Content }}
-                </p>
-                {{ if le .Params.stock 0 }}
-                    <span class="label label-danger">Out of stock</span>
-                {{ else }}
-                  <button
-                    class="btn btn-default"
-                    data-item-id="{{ .Params.id }}"
-                    data-item-name="{{ .Title }}"
-                    data-item-price="{{ .Params.price }}"
-                    data-item-image="{{ .Params.image }}"
-                    data-item-url="/"
-                    data-item-max-quantity="1"
-                    data-item-description="{{ .Params.description }}">
-                    I want it!
-                  </button>
-                {{end}}
-              </div>
-
-              {{ if .Params.tags }}
-                <div class="blog-tags">
-                  {{ range .Params.tags }}
-                    <a href="{{ $.Site.LanguagePrefix | absURL }}/tags/{{ . | urlize }}/">{{ . }}</a>&nbsp;
-                  {{ end }}
-                </div>
-              {{ end }}
-            </article>
+          <h2 class="post-title">{{ .Title }}</h2>
+          {{ if .Params.subtitle }}
+          <h3 class="post-subtitle">
+            {{ .Params.subtitle }}
+          </h3>
           {{ end }}
-        </div>
 
-        {{ if or (.Paginator.HasPrev) (.Paginator.HasNext) }}
-          <ul class="pager main-pager">
-            {{ if .Paginator.HasPrev }}
-              <li class="previous">
-                <a href="{{ .Paginator.Prev.URL | absURL }}">&larr; {{ i18n "newerPosts" }}</a>
-              </li>
+          {{ partial "post_meta.html" . }}
+          <div class="post-entry">
+            <p>
+              <span class="label label-success">{{ .Params.price }} €</span>
+              {{ if gt .Params.stock 0 }}
+              <span class="label label-default">{{ .Params.stock }} left</span>
+              {{ end }}
+            </p>
+            <p>
+              <img src="{{ .Params.image }}" alt="{{ .Title }}" width="640" height="480">
+              {{ .Content }}
+            </p>
+            {{ if le .Params.stock 0 }}
+            <span class="label label-danger">Out of stock</span>
+            {{ else }}
+            <button class="btn btn-default btn-want-product" data-toggle="modal" data-target="#exampleModal"
+              data-product-id="{{ .Params.id }}" data-product-name="{{ .Title }}">
+              I want it!
+            </button>
+            {{end}}
+          </div>
+
+          {{ if .Params.tags }}
+          <div class="blog-tags">
+            {{ range .Params.tags }}
+            <a href="{{ $.Site.LanguagePrefix | absURL }}/tags/{{ . | urlize }}/">{{ . }}</a>&nbsp;
             {{ end }}
-            {{ if .Paginator.HasNext }}
-              <li class="next">
-                <a href="{{ .Paginator.Next.URL | absURL }}">{{ i18n "olderPosts" }} &rarr;</a>
-              </li>
-            {{ end }}
-          </ul>
+          </div>
+          {{ end }}
+        </article>
         {{ end }}
+      </div>
+
+      {{ if or (.Paginator.HasPrev) (.Paginator.HasNext) }}
+      <ul class="pager main-pager">
+        {{ if .Paginator.HasPrev }}
+        <li class="previous">
+          <a href="{{ .Paginator.Prev.URL | absURL }}">&larr; {{ i18n "newerPosts" }}</a>
+        </li>
+        {{ end }}
+        {{ if .Paginator.HasNext }}
+        <li class="next">
+          <a href="{{ .Paginator.Next.URL | absURL }}">{{ i18n "olderPosts" }} &rarr;</a>
+        </li>
+        {{ end }}
+      </ul>
+      {{ end }}
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">I want it!</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="product-name" class="col-form-label">Product:</label>
+            <input type="text" class="form-control" id="product-name" disabled>
+          </div>
+          <div class="form-group">
+            <label for="buyer-name" class="col-form-label">Your name:</label>
+            <input type="text" class="form-control" id="buyer-name"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="buyer-email" class="col-form-label">Your email:</label>
+            <input type="text" class="form-control" id="buyer-email"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="buyer-message" class="col-form-label">Your message to me:</label>
+            <textarea class="form-control" id="buyer-message"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Send message</button>
       </div>
     </div>
   </div>
+</div>
 {{ end }}

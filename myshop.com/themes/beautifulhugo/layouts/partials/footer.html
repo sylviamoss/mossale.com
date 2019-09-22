@@ -63,6 +63,15 @@
 <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <script src="{{ "js/main.js" | absURL }}"></script>
+<script type="text/javascript">
+  $('#exampleModal').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget)
+  var recipient = button.data('productName')
+  var modal = $(this)
+  modal.find('.modal-title').text('I want this ' + recipient)
+  modal.find('.modal-body #product-name').val(recipient)
+})
+</script>
 {{- if .Site.Params.staticman }}
 <script src="{{ "js/staticman.js" | absURL }}"></script>
 {{- end }}
