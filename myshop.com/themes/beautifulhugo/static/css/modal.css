@@ -1,0 +1,13 @@
+.modal-content {
+    padding: 5px;
+    font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+.modal-header h3 {
+    padding: unset; 
+}
+
+.modal-header .close {
+    margin: 3px 0 3px 0;
+    font-size: 28px;
+}
