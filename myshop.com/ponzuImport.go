@@ -3,7 +3,6 @@ package main
 import (
 	"bufio"
 	"crypto/tls"
-	"encoding/base64"
 	"encoding/json"
 	"io/ioutil"
 	"log"
@@ -40,14 +39,6 @@ type HugoProduct struct {
 	Stock            int     `json:"stock"`
 }
 
-type SnipcartProductResponse struct {
-	Items []SnipcartProduct `json:"items"`
-}
-
-type SnipcartProduct struct {
-	Stock int `json:"stock"`
-}
-
 func (dest *HugoProduct) mapPonzuProduct(
 	src PonzuProduct,
 	ponzuHostURL string,
@@ -60,41 +51,7 @@ func (dest *HugoProduct) mapPonzuProduct(
 	dest.Image = ponzuHostURL + src.Image
 	dest.Date = time.Unix(src.Timestamp/1000, 0)
 	dest.LastModification = time.Unix(src.Updated/1000, 0)
-
-	// Fetch stock from Snipcart API
-	var url = "https://app.snipcart.com/api/products?userDefinedId=" + dest.ID
-	request, err := http.NewRequest(http.MethodGet, url, nil)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	var apiKey = base64.StdEncoding.EncodeToString([]byte(os.Getenv("SNIPCART_PRIVATE_API_KEY")))
-	request.Header.Add("Accept", "application/json")
-	request.Header.Add("Authorization", "Basic "+apiKey)
-
-	response, err := client.Do(request)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	defer response.Body.Close()
-	body, err := ioutil.ReadAll(response.Body)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	var products SnipcartProductResponse
-
-	if err = json.Unmarshal(body, &products); err != nil {
-		log.Fatal(err)
-	}
-
-	if len(products.Items) > 0 {
-		dest.Stock = products.Items[0].Stock
-	} else {
-		dest.Stock = 1
-	}
-
+	dest.Stock = 1
 }
 
 func main() {
